@@ -1,5 +1,3 @@
-// atendente.js
-
 document.addEventListener('DOMContentLoaded', function () {
     const chamarProximaBtn = document.getElementById('chamarProximaBtn');
     const senhaChamadaElem = document.getElementById('senhaChamada');
@@ -33,10 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     realizarAtendimentoBtn.addEventListener('click', function () {
-        alert('Atendimento realizado com sucesso.');
-        senhaChamadaElem.textContent = '';
-        realizarAtendimentoBtn.disabled = true;
-        pacienteAusenteBtn.disabled = true;
+        window.location.href = '/cadastro';
     });
 
     pacienteAusenteBtn.addEventListener('click', function () {
@@ -46,4 +41,3 @@ document.addEventListener('DOMContentLoaded', function () {
         pacienteAusenteBtn.disabled = true;
     });
 });
-
