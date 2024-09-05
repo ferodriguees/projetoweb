@@ -31,6 +31,7 @@ public class UsuarioBO {
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioDTO.getNome());
         usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setCpf(usuarioDTO.getCpf());
         usuario.setSenha("c" + usuarioDTO.getCpf()); // Senha padrão: 'c' seguido do CPF
         usuario.setPerfil("ADMIN"); // Ou outro identificador para perfis de administrador
 
