@@ -3,7 +3,6 @@ package br.edu.ifg.luziania.model.bo;
 import br.edu.ifg.luziania.model.dao.UsuarioDAO;
 import br.edu.ifg.luziania.model.dto.UsuarioDTO;
 import br.edu.ifg.luziania.model.entity.Usuario;
-import br.edu.ifg.luziania.model.security.jwt.GenerateToken;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -33,7 +32,7 @@ public class UsuarioBO {
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setCpf(usuarioDTO.getCpf());
         usuario.setSenha("c" + usuarioDTO.getCpf()); // Senha padrão: 'c' seguido do CPF
-        usuario.setPerfil("ADMIN"); // Ou outro identificador para perfis de administrador
+        usuario.setPerfil("admin"); // Ou outro identificador para perfis de administrador
 
         usuarioDAO.persist(usuario);
     }
@@ -63,9 +62,38 @@ public class UsuarioBO {
 
         return usuario; // Se o usuário for encontrado e a senha corresponder, retorna o usuário; senão retorna null
     }
-    public String gerarTokenJWT(Usuario usuario) {
-        return GenerateToken.generate(usuario);
+//    public String gerarTokenJWT(Usuario usuario) {
+//        return GenerateToken.generate(usuario);
+//    }
+
+    // Método para buscar o usuário pelo CPF
+    public UsuarioDTO buscarUsuarioPorCpf(String cpf) {
+        Usuario usuario = usuarioDAO.buscarPorCpf(cpf);
+        if (usuario != null) {
+            System.out.println("Dados do Usuário: Nome=" + usuario.getNome() + ", CPF=" + usuario.getCpf() + ", Email=" + usuario.getEmail());
+            // Converte a entidade Usuario para UsuarioDTO
+            return new UsuarioDTO(usuario.getNome(), usuario.getEmail(), usuario.getCpf(), usuario.getSenha());
+        }
+        return null;
     }
 
+    // Método para atualizar o usuário
+    public void atualizarUsuario(UsuarioDTO usuarioAtualizado) {
+        Usuario usuarioEntidade = usuarioDAO.buscarPorCpf(usuarioAtualizado.getCpf());
+
+        if (usuarioEntidade != null) {
+            // Atualiza os dados na entidade
+            usuarioEntidade.setNome(usuarioAtualizado.getNome());
+            usuarioEntidade.setEmail(usuarioAtualizado.getEmail());
+
+            // Atualiza a senha se estiver presente
+            if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isEmpty()) {
+                usuarioEntidade.setSenha(usuarioAtualizado.getSenha());
+            }
+
+            // Atualiza a entidade no banco
+            usuarioDAO.persist(usuarioEntidade);
+        }
+    }
 }
 

@@ -1,34 +1,33 @@
-function login(email, senha) {
+document.getElementById('loginForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
     fetch('/login', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
-            'email': email,
-            'senha': senha
+            email: document.getElementById('email').value,
+            senha: document.getElementById('senha').value
         })
     })
-        .then(response => {
-            console.log('Status da resposta:', response.status);
-            if (!response.ok) {
-                throw new Error('Falha ao fazer login: ' + response.status);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            console.log('Dados recebidos do servidor:', data);
-            if (data && data.token) {
-                localStorage.setItem('jwtToken', data.token);
-                console.log('Login bem-sucedido! Token:', data.token);
+            if (data.token) {
+                // Armazena o token JWT no localStorage
+                localStorage.setItem('token', data.token);
+
+                // Armazena o CPF no localStorage ou sessionStorage, se necessário
+                localStorage.setItem('cpf', data.cpf);
+
+                // Redireciona para a página principal ou outra página apropriada
+                window.location.href = '/site_admin';
             } else {
-                console.error('Login falhou: Token não encontrado na resposta.');
+                alert('Login falhou! Verifique seu email e senha.');
             }
         })
         .catch(error => {
-            console.error('Erro durante o login:', error);
+            console.error('Erro ao fazer login:', error);
+            alert('Ocorreu um erro ao fazer login. Tente novamente mais tarde.');
         });
-}
-
-// Exemplo de uso
-login('usuario@exemplo.com', 'senha123');
+});

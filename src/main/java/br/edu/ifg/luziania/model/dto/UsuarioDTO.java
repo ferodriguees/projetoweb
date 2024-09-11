@@ -3,17 +3,25 @@ package br.edu.ifg.luziania.model.dto;
 import jakarta.ws.rs.FormParam;
 
 public class UsuarioDTO {
-    @FormParam("nome")
+
     private String nome;
-    @FormParam("email")
+
     private String email;
-    @FormParam("senha")
+
     private String senha;
-    @FormParam("cpf")
+
     private String cpf;
 
     public UsuarioDTO() {
     }
+
+    public UsuarioDTO(String nome, String email, String cpf, String senha) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+    }
+
 
     // Getters e Setters
     public String getNome() {

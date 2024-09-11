@@ -32,5 +32,10 @@ public class AtendimentoBO {
     public boolean isFilaVazia() {
         return filaPacientes.isEmpty();
     }
+
+    // Método para marcar paciente como ausente
+    public void marcarPacienteComoAusente() {
+        filaPacientes.poll();// Remove o paciente atual da fila
+    }
 }
 
