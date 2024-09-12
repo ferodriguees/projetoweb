@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        fetch('/cadastro/realizarCadastro', {
+        fetch('/paciente/realizarCadastro', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
