@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #3E819B;
+    padding: 10px;
+    color: white;
+}
+
+nav .navbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+main {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"], input[type="password"] {
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #3E819B;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3E819B;
+}
+
+/* Estilo para o botão "Início" */
+.btn-inicio {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #3E819B; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    text-decoration: none; /* Remove o sublinhado */
+    border-radius: 5px; /* Bordas arredondadas */
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    transition: background-color 0.3s ease; /* Transição suave */
+}
+
+.btn-inicio:hover {
+    background-color: #0bb2ea; /* Cor ao passar o mouse */
+}
+
+.btn-inicio:active {
+    background-color: #3E819B; /* Cor ao clicar */
+}

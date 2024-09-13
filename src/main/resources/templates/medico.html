@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela do Médico</title>
+    <link rel="stylesheet" href="/css/medico.css">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="navbar">
+            <a href="/site_admin">Início</a>
+            <span>Tela do Médico</span>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <h2>Atendimento Médico</h2>
+    <div id="paciente-info">
+        <p>Paciente Atual: <span id="nomePacienteElem"></span></p>
+    </div>
+    <div class="botoes">
+        <button id="chamarPacienteBtn">Chamar Paciente</button>
+        <button id="realizarAtendimentoBtn" disabled>Realizar Atendimento</button>
+        <button id="pacienteAusenteBtn" disabled>Paciente Ausente</button>
+    </div>
+</main>
+
+<script src="/js/medico.js"></script>
+</body>
+</html>
