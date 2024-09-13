@@ -7,20 +7,8 @@
     <link rel="stylesheet" href="/css/siteAdmin.css">
 </head>
 <body>
-<nav class="navbar">
-    <div class="menu-esquerdo">
-        <button id="menuToggle">☰ Menu</button>
-    </div>
-    <div class="menu-direito">
-        <div class="dropdown">
-            <button id="nomeUsuarioDropdown" class="dropdown-toggle">Nome do Usuário</button>
-            <div id="dropdownContent" class="dropdown-content">
-                <a href="/usuario/conta">Conta</a>
-                <a href="/logout">Sair</a>
-            </div>
-        </div>
-    </div>
-</nav>
+    {#include navbar /}  <!-- Inclui o fragmento da barra de navegação -->
+<h1>Bem-vindo à página Admin</h1>
 
 <script src="/js/siteAdmin.js"></script>
 </body>
