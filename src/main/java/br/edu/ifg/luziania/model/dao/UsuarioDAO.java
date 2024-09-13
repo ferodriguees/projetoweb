@@ -27,6 +27,22 @@ public class UsuarioDAO implements PanacheRepository<Usuario> {
         }
     }
 
+    public Usuario buscarPorEmail(String email) {
+        try {
+            Usuario usuario = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.email = :email", Usuario.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+
+            // Log para verificar se o usuário foi encontrado
+            System.out.println("Usuário encontrado: " + usuario.getNome() + ", Email: " + usuario.getEmail());
+            return usuario;
+        } catch (NoResultException e) {
+            System.out.println("Nenhum usuário encontrado com o email: " + email);
+            return null; // Retorna null se não encontrar nenhum resultado
+        }
+    }
+
+
     public void persist(Usuario usuario) {
         entityManager.merge(usuario);  // Atualiza o usuário no banco de dados
     }

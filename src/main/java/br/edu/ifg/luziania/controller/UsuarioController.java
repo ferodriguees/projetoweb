@@ -104,7 +104,8 @@ public class UsuarioController {
             return Response.status(Response.Status.NOT_FOUND).entity("Usuário não encontrado").build();
         }
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getNome(), usuario.getEmail(), usuario.getCpf(), usuario.getSenha());
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getNome(), usuario.getEmail(),
+                usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
 
         return Response.ok(usuarioDTO).build();
     }

@@ -72,7 +72,17 @@ public class UsuarioBO {
         if (usuario != null) {
             System.out.println("Dados do Usuário: Nome=" + usuario.getNome() + ", CPF=" + usuario.getCpf() + ", Email=" + usuario.getEmail());
             // Converte a entidade Usuario para UsuarioDTO
-            return new UsuarioDTO(usuario.getNome(), usuario.getEmail(), usuario.getCpf(), usuario.getSenha());
+            return new UsuarioDTO(usuario.getNome(), usuario.getEmail(), usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
+        }
+        return null;
+    }
+
+    public UsuarioDTO buscarUsuarioPorEmail(String email) {
+        Usuario usuario = usuarioDAO.buscarPorEmail(email);
+        if (usuario != null) {
+            System.out.println("Dados do Usuário: Nome=" + usuario.getNome() + ", CPF=" + usuario.getCpf() + ", Email=" + usuario.getEmail());
+            // Converte a entidade Usuario para UsuarioDTO
+            return new UsuarioDTO(usuario.getNome(), usuario.getEmail(), usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
         }
         return null;
     }

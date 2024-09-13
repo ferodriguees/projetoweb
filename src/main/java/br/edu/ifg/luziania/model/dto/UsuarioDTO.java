@@ -1,12 +1,12 @@
 package br.edu.ifg.luziania.model.dto;
 
-import jakarta.ws.rs.FormParam;
-
 public class UsuarioDTO {
 
     private String nome;
 
     private String email;
+
+    private String perfil;
 
     private String senha;
 
@@ -15,10 +15,11 @@ public class UsuarioDTO {
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String nome, String email, String cpf, String senha) {
+    public UsuarioDTO(String nome, String email, String cpf, String perfil, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
+        this.perfil = perfil;
         this.senha = senha;
     }
 
@@ -38,6 +39,14 @@ public class UsuarioDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
 
     public String getSenha() {
