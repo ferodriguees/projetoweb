@@ -29,8 +29,8 @@ label {
     font-weight: bold;
 }
 
-input[type="text"], input[type="password"] {
-    padding: 8px;
+input[type="text"], input[type="password"], input[type="email"] {
+    padding: 7px;
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -46,6 +46,6 @@ button {
 }
 
 button:hover {
-    background-color: #1d6c8c;
+    background-color: #44a2be;
 }
 

@@ -37,7 +37,7 @@ window.onload = function() {
         document.getElementById('dropdownContent').classList.toggle('show');
     });
 
-    document.getElementById('logoutButton').addEventListener('click', function() {
+    document.getElementById('logout').addEventListener('click', function() {
         // Limpa o localStorage (onde o token e outros dados do usuário estão armazenados)
         localStorage.removeItem('cpf'); // Remove o CPF do usuário
         localStorage.removeItem('token');   // Se estiver usando JWT, remova o token também

@@ -1,6 +1,6 @@
 <nav class="navbar">
     <div class="menu-esquerdo">
-        <button id="menuToggle">☰ Menu</button>
+        <button id="menuToggle" class="menu-toggle">☰ Menu</button>
         <div id="menuContent" class="menu-content">
             <a href="/site_admin" class="btn-inicio">Início</a>
             <a href="#Usuario">Usuario</a>
@@ -10,8 +10,9 @@
         <div class="dropdown">
             <button id="nomeUsuarioDropdown" class="dropdown-toggle">Nome do Usuário</button>
             <div id="dropdownContent" class="dropdown-content">
-                <a href="/site_admin/conta">Conta</a>
-                <button id="logoutButton">Logout</button>
+                <a href="/site_admin/conta" class="conta-content">Conta</a>
+                <a href="/login" id="logout">Sair</a>
+
             </div>
         </div>
     </div>
