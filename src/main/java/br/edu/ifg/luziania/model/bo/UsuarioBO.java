@@ -29,6 +29,20 @@ public class UsuarioBO {
     public void cadastrarUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioDTO.getNome());
+        usuario.setUsername(usuarioDTO.getUsername());
+        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setCpf(usuarioDTO.getCpf());
+        usuario.setSenha("c" + usuarioDTO.getCpf()); // Senha padrão: 'c' seguido do CPF
+        usuario.setPerfil(usuarioDTO.getPerfil()); // Ou outro identificador para perfis de administrador
+
+        usuarioDAO.persist(usuario);
+    }
+
+    @Transactional
+    public void cadastrarAdmin(UsuarioDTO usuarioDTO) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(usuarioDTO.getNome());
+        usuario.setUsername(usuarioDTO.getUsername());
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setCpf(usuarioDTO.getCpf());
         usuario.setSenha("c" + usuarioDTO.getCpf()); // Senha padrão: 'c' seguido do CPF
@@ -54,17 +68,12 @@ public class UsuarioBO {
     }
 
     @Transactional
-    public Usuario autenticarUsuario(String email, String senha) {
-        Usuario usuario = usuarioDAO.find("email", email)
+    public Usuario autenticarUsuario(String username, String senha) {
+        return usuarioDAO.find("username", username)
                 .firstResultOptional()
                 .filter(u -> u.getSenha().equals(senha))
-                .orElse(null);
-
-        return usuario; // Se o usuário for encontrado e a senha corresponder, retorna o usuário; senão retorna null
+                .orElse(null); // Retorna o usuário se encontrado e senha corresponder, senão retorna null
     }
-//    public String gerarTokenJWT(Usuario usuario) {
-//        return GenerateToken.generate(usuario);
-//    }
 
     // Método para buscar o usuário pelo CPF
     public UsuarioDTO buscarUsuarioPorCpf(String cpf) {
@@ -72,7 +81,7 @@ public class UsuarioBO {
         if (usuario != null) {
             System.out.println("Dados do Usuário: Nome=" + usuario.getNome() + ", CPF=" + usuario.getCpf() + ", Email=" + usuario.getEmail());
             // Converte a entidade Usuario para UsuarioDTO
-            return new UsuarioDTO(usuario.getNome(), usuario.getEmail(), usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
+            return new UsuarioDTO(usuario.getNome(), usuario.getUsername(), usuario.getEmail(), usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
         }
         return null;
     }
@@ -82,7 +91,7 @@ public class UsuarioBO {
         if (usuario != null) {
             System.out.println("Dados do Usuário: Nome=" + usuario.getNome() + ", CPF=" + usuario.getCpf() + ", Email=" + usuario.getEmail());
             // Converte a entidade Usuario para UsuarioDTO
-            return new UsuarioDTO(usuario.getNome(), usuario.getEmail(), usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
+            return new UsuarioDTO(usuario.getNome(), usuario.getUsername(), usuario.getEmail(), usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
         }
         return null;
     }
@@ -94,7 +103,7 @@ public class UsuarioBO {
         if (usuarioEntidade != null) {
             // Atualiza os dados na entidade
             usuarioEntidade.setNome(usuarioAtualizado.getNome());
-            usuarioEntidade.setEmail(usuarioAtualizado.getEmail());
+            usuarioEntidade.setPerfil(usuarioAtualizado.getPerfil());
 
             // Atualiza a senha se estiver presente
             if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isEmpty()) {

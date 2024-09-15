@@ -1,17 +1,4 @@
 window.onload = function() {
-    // Carrega a barra de navegação
-    fetch('/navbar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('navbarContainer').innerHTML = data;
-
-            // Após carregar a barra, inicializa as funcionalidades do dropdown
-            initializeNavbar();
-        })
-        .catch(error => console.error('Erro ao carregar a barra de navegação:', error));
-};
-
-function initializeNavbar() {
     // Obtém o CPF do usuário logado (armazenado no localStorage ou de outro lugar)
     const cpf = localStorage.getItem('cpf');
 
@@ -33,26 +20,47 @@ function initializeNavbar() {
                     console.error('Usuário não encontrado');
                 }
             })
-            .catch(error => console.error('Erro ao buscar o usuário pelo CPF:', error));
+            .catch(error => {
+                console.error('Erro ao buscar o usuário pelo CPF:', error);
+            });
     } else {
         console.error('CPF do usuário não encontrado');
     }
 
-    // Adiciona evento de clique para abrir/fechar o dropdown
+    // Alterna o menu esquerdo
+    document.getElementById('menuToggle').addEventListener('click', function() {
+        document.getElementById('menuContent').classList.toggle('show');
+    });
+
+// Alterna o dropdown do usuário
     document.getElementById('nomeUsuarioDropdown').addEventListener('click', function() {
         document.getElementById('dropdownContent').classList.toggle('show');
     });
 
-    // Fecha o dropdown se o usuário clicar fora dele
-    document.addEventListener("DOMContentLoaded", function() {
-        const dropdownButton = document.getElementById('nomeUsuarioDropdown');
-        if (dropdownButton) {
-            dropdownButton.addEventListener('click', function() {
-                document.getElementById('dropdownContent').classList.toggle('show');
-            });
-        } else {
-            console.error("Elemento 'nomeUsuarioDropdown' não encontrado.");
-        }
+    document.getElementById('logoutButton').addEventListener('click', function() {
+        // Limpa o localStorage (onde o token e outros dados do usuário estão armazenados)
+        localStorage.removeItem('cpf'); // Remove o CPF do usuário
+        localStorage.removeItem('token');   // Se estiver usando JWT, remova o token também
+
+        // Redireciona para a página de login
+        window.location.href = '/login';
     });
 
-}
+
+// Fecha o menu quando clicar fora
+    window.onclick = function(event) {
+        if (!event.target.matches('#menuToggle')) {
+            var menuContent = document.getElementById('menuContent');
+            if (menuContent.classList.contains('show')) {
+                menuContent.classList.remove('show');
+            }
+        }
+
+        if (!event.target.matches('.dropdown-toggle')) {
+            var dropdownContent = document.getElementById('dropdownContent');
+            if (dropdownContent.classList.contains('show')) {
+                dropdownContent.classList.remove('show');
+            }
+        }
+    };
+};

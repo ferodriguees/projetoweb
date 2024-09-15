@@ -33,8 +33,8 @@ public class LoginController {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(@FormParam("email") String email, @FormParam("senha") String senha) throws Exception {
-        Usuario usuario = usuarioBO.autenticarUsuario(email, senha);
+    public Response login(@FormParam("username") String username, @FormParam("senha") String senha) throws Exception {
+        Usuario usuario = usuarioBO.autenticarUsuario(username, senha);
 
         if (usuario != null) {
             // Gera o token JWT após autenticar o usuário

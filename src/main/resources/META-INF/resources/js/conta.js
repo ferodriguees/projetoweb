@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data) {
                 // Preenche os campos do formulário com os dados do usuário
                 document.getElementById('nome').value = data.nome;
+                document.getElementById('username').value = data.username;
                 document.getElementById('cpf').value = data.cpf; // CPF é fixo, mas pode exibir
                 document.getElementById('email').value = data.email;
             } else {
@@ -37,19 +38,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Verifica se todos os campos do formulário existem
         const nomeField = document.getElementById('nome');
-        const emailField = document.getElementById('email');
         const senhaField = document.getElementById('senha');
         const repetirSenhaField = document.getElementById('repetirSenha');
 
         // Certifica-se de que os campos foram corretamente encontrados no DOM
-        if (!nomeField || !emailField || !senhaField || !repetirSenhaField) {
+        if (!nomeField || !senhaField || !repetirSenhaField) {
             console.error("Um ou mais campos do formulário não foram encontrados.");
             return; // Impede o envio do formulário se algum campo não for encontrado
         }
 
         // Obtém os valores dos campos
         const nome = nomeField.value;
-        const email = emailField.value;
         const senha = senhaField.value;
         const repetirSenha = repetirSenhaField.value;
 
@@ -62,12 +61,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Cria o objeto de dados do usuário, incluindo a senha (se fornecida)
         const usuarioAtualizado = {
             nome: nome,
-            email: email,
             senha: senha || null // Se o campo senha estiver vazio, o backend pode ignorar a alteração
         };
 
         // Faz a requisição PUT para atualizar o usuário
-        fetch(`/usuario/atualizar/${document.getElementById('cpf').value}`, {
+        fetch(`/site_admin/atualizar/${document.getElementById('cpf').value}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,

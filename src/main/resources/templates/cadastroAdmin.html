@@ -9,9 +9,12 @@
 <body>
 <div class="container">
     <h1>Cadastro de Administrador</h1>
-    <form action="/usuario/cadastro" id="cadastroForm" method="post">
+    <form action="/usuario/cadastroAdmin" id="cadastroForm" method="post">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
 
         <label for="cpf">CPF:</label>
         <input type="text" id="cpf" name="cpf" required>
@@ -23,6 +26,6 @@
     </form>
     <div id="mensagem" style="display: none; color: green;"></div>
 </div>
-<script src="/js/cadastroUsuario.js"></script>
+<script src="/js/cadastroAdmin.js"></script>
 </body>
 </html>

@@ -3,16 +3,17 @@ document.getElementById('cadastroForm').addEventListener('submit', function (eve
 
     // Coleta os dados do formulário
     const nome = document.getElementById('nome').value;
+    const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const cpf = document.getElementById('cpf').value;
 
     // Envia os dados via fetch
-    fetch('/usuario/cadastro', {
+    fetch('/usuario/cadastroAdmin', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nome, email, cpf })
+        body: JSON.stringify({ nome, username, email, cpf })
     })
         .then(response => response.text()) // Recebe a mensagem do backend
         .then(message => {
@@ -23,7 +24,7 @@ document.getElementById('cadastroForm').addEventListener('submit', function (eve
 
             // Redireciona para a página de login após 3 segundos
             setTimeout(() => {
-                window.location.href = '/login';
+                //window.location.href = '/login';
             }, 3000);
         })
         .catch(error => {

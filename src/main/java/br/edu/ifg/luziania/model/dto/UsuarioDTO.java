@@ -4,6 +4,8 @@ public class UsuarioDTO {
 
     private String nome;
 
+    private String username;
+
     private String email;
 
     private String perfil;
@@ -15,8 +17,9 @@ public class UsuarioDTO {
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String nome, String email, String cpf, String perfil, String senha) {
+    public UsuarioDTO(String nome, String username, String email, String cpf, String perfil, String senha) {
         this.nome = nome;
+        this.username = username;
         this.cpf = cpf;
         this.email = email;
         this.perfil = perfil;
@@ -31,6 +34,14 @@ public class UsuarioDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

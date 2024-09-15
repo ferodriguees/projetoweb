@@ -15,7 +15,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,21 +24,12 @@ public class UsuarioController {
     @Inject
     UsuarioBO usuarioBO;
     @Inject
-    Template cadastro;
+    Template cadastroAdmin;
 
     @GET
-    @Path("/cadastro")
-    public TemplateInstance getCadastroPage() {
-        return cadastro.instance();
-    }
-
-    @Inject
-    Template conta;
-
-    @GET
-    @Path("/conta")
-    public TemplateInstance getContaPage() {
-        return conta.instance();
+    @Path("/cadastroAdmin")
+    public TemplateInstance getCadastroAdmin() {
+        return cadastroAdmin.instance();
     }
 
     @GET
@@ -55,11 +45,11 @@ public class UsuarioController {
     }
 
     @POST
-    @Path("/cadastro")
+    @Path("/cadastroAdmin")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response cadastrarUsuario(UsuarioDTO usuarioDTO) {
         // Chama o método do BO para cadastrar o usuário
-        usuarioBO.cadastrarUsuario(usuarioDTO);
+        usuarioBO.cadastrarAdmin(usuarioDTO);
 
         // Redireciona para a página de login após o cadastro bem-sucedido
         return Response.ok("Usuário cadastrado com sucesso").build();
@@ -104,40 +94,10 @@ public class UsuarioController {
             return Response.status(Response.Status.NOT_FOUND).entity("Usuário não encontrado").build();
         }
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getNome(), usuario.getEmail(),
-                usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getNome(), usuario.getUsername(),
+                usuario.getEmail(), usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
 
         return Response.ok(usuarioDTO).build();
-    }
-
-    // Método para atualizar os dados do usuário
-    @PUT
-    @RolesAllowed("admin")
-    @Path("/atualizar/{cpf}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Transactional
-    public Response atualizarUsuario(@PathParam("cpf") String cpf, UsuarioDTO usuarioAtualizado) {
-        UsuarioDTO usuarioExistente = usuarioBO.buscarUsuarioPorCpf(cpf);
-
-        if (usuarioExistente != null) {
-            // Atualiza o nome e o email do usuário
-            usuarioExistente.setNome(usuarioAtualizado.getNome());
-            usuarioExistente.setEmail(usuarioAtualizado.getEmail());
-
-            // Verifica se o campo senha foi preenchido
-            if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isEmpty()) {
-                // Atualiza a senha, se foi fornecida
-                usuarioExistente.setSenha(usuarioAtualizado.getSenha());
-            }
-
-            // Chama o BO para atualizar o usuário
-            usuarioBO.atualizarUsuario(usuarioExistente);
-
-            return Response.ok("Usuário atualizado com sucesso.").build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).entity("Usuário não encontrado.").build();
-        }
     }
 
     @GET

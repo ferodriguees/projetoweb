@@ -7,7 +7,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
-            email: document.getElementById('email').value,
+            username: document.getElementById('username').value,
             senha: document.getElementById('senha').value
         })
     })
@@ -23,7 +23,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
                 // Redireciona para a página principal ou outra página apropriada
                 window.location.href = '/site_admin';
             } else {
-                alert('Login falhou! Verifique seu email e senha.');
+                alert('Login falhou! Verifique seu nome de usuário e senha.');
             }
         })
         .catch(error => {

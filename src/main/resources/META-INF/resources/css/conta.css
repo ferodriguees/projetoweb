@@ -2,17 +2,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-header {
-    background-color: #3E819B;
-    padding: 10px;
-    color: white;
-}
-
-nav .navbar {
-    display: flex;
-    justify-content: space-between;
-}
-
 main {
     max-width: 600px;
     margin: 50px auto;
@@ -57,26 +46,6 @@ button {
 }
 
 button:hover {
-    background-color: #3E819B;
+    background-color: #1d6c8c;
 }
 
-/* Estilo para o botão "Início" */
-.btn-inicio {
-    display: inline-block;
-    padding: 8px 15px;
-    background-color: #3E819B; /* Cor de fundo */
-    color: white; /* Cor do texto */
-    text-decoration: none; /* Remove o sublinhado */
-    border-radius: 5px; /* Bordas arredondadas */
-    font-size: 16px; /* Tamanho da fonte */
-    font-weight: bold; /* Negrito */
-    transition: background-color 0.3s ease; /* Transição suave */
-}
-
-.btn-inicio:hover {
-    background-color: #0bb2ea; /* Cor ao passar o mouse */
-}
-
-.btn-inicio:active {
-    background-color: #3E819B; /* Cor ao clicar */
-}
