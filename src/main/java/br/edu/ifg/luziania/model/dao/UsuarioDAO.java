@@ -6,6 +6,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+
+import java.util.List;
 
 @ApplicationScoped
 public class UsuarioDAO implements PanacheRepository<Usuario> {
@@ -42,6 +45,33 @@ public class UsuarioDAO implements PanacheRepository<Usuario> {
         }
     }
 
+    public List<Usuario> pesquisarUsuarios(String nome, String email, String username) {
+        StringBuilder queryStr = new StringBuilder("SELECT u FROM Usuario u WHERE 1=1");
+
+        if (nome != null && !nome.isEmpty()) {
+            queryStr.append(" AND u.nome LIKE :nome");
+        }
+        if (email != null && !email.isEmpty()) {
+            queryStr.append(" AND u.email LIKE :email");
+        }
+        if (username != null && !username.isEmpty()) {
+            queryStr.append(" AND u.username LIKE :username");
+        }
+
+        TypedQuery<Usuario> query = entityManager.createQuery(queryStr.toString(), Usuario.class);
+
+        if (nome != null && !nome.isEmpty()) {
+            query.setParameter("nome", "%" + nome + "%");
+        }
+        if (email != null && !email.isEmpty()) {
+            query.setParameter("email", "%" + email + "%");
+        }
+        if (username != null && !username.isEmpty()) {
+            query.setParameter("username", "%" + username + "%");
+        }
+
+        return query.getResultList();
+    }
 
     public void persist(Usuario usuario) {
         entityManager.merge(usuario);  // Atualiza o usuário no banco de dados

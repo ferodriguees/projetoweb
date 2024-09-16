@@ -25,7 +25,7 @@ public class PacienteDAO {
         }
     }
 
-    // Método para buscar paciente por CPF (opcional, caso necessário)
+
     public Paciente buscarPorCpf(String cpf) {
         try {
             return entityManager.createQuery("SELECT p FROM Paciente p WHERE p.cpf = :cpf", Paciente.class)

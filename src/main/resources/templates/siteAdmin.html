@@ -6,11 +6,16 @@
     <title>Site Admin</title>
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/siteAdmin.css">
+        {#include navbar /}  <!-- Inclui o fragmento da barra de navegação -->
 </head>
 <body>
-    {#include navbar /}  <!-- Inclui o fragmento da barra de navegação -->
-<h1>Bem-vindo à página Admin</h1>
 
-<script src="/js/siteAdmin.js"></script>
+
+    <div id="conteudo">
+        <!-- Conteúdo dinâmico será carregado aqui -->
+    </div>
+
+    <script type="module" src="/js/loadNavbar.js"></script>
+    <script src="/js/siteAdmin.js"></script>
 </body>
 </html>

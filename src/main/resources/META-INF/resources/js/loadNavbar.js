@@ -27,6 +27,52 @@ window.onload = function() {
         console.error('CPF do usuário não encontrado');
     }
 
+        function loadUserPage() {
+            // Carrega a página de usuários ao clicar no menu "Usuário"
+            document.querySelector("#usuarioOption").addEventListener("click", function (event) {
+                event.preventDefault(); // Evita o recarregamento completo
+
+                fetch('/site_admin/usuario_list') // Pega o conteúdo da lista de usuários
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('conteudo').innerHTML = html; // Carrega o conteúdo no corpo da página
+                        loadSearchFunctionality(); // Chama a função para carregar a pesquisa
+                    })
+                    .catch(error => console.error('Erro ao carregar a página de usuários:', error));
+            });
+        }
+
+        // Função para adicionar eventos ao formulário de pesquisa
+        function loadSearchFunctionality() {
+            const searchForm = document.getElementById('searchForm');
+            searchForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Evita o envio padrão
+
+                const nome = document.getElementById('nome').value;
+                const cpf = document.getElementById('cpf').value;
+                const email = document.getElementById('email').value;
+
+                // Faz a requisição de busca com base nos filtros
+                fetch(`/site_admin/pesquisar?nome=${nome}&cpf=${cpf}&email=${email}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const userList = document.getElementById('userList');
+                        userList.innerHTML = ''; // Limpa a lista anterior
+
+                        // Exibe os resultados da pesquisa
+                        data.forEach(usuario => {
+                            const userItem = document.createElement('div');
+                            userItem.textContent = `Nome: ${usuario.nome}, CPF: ${usuario.cpf}, Email: ${usuario.email}`;
+                            userList.appendChild(userItem);
+                        });
+                    })
+                    .catch(error => console.error('Erro ao buscar usuários:', error));
+            });
+        }
+
+        loadUserPage();
+
+
     // Alterna o menu esquerdo
     document.getElementById('menuToggle').addEventListener('click', function() {
         document.getElementById('menuContent').classList.toggle('show');

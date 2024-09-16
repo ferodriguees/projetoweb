@@ -2,6 +2,7 @@ package br.edu.ifg.luziania.controller;
 
 import br.edu.ifg.luziania.model.bo.UsuarioBO;
 import br.edu.ifg.luziania.model.dto.UsuarioDTO;
+import br.edu.ifg.luziania.model.entity.Usuario;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import io.quarkus.security.identity.SecurityIdentity;
@@ -11,6 +12,8 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.util.List;
 
 @Path("/site_admin")
 public class SiteAdminController {
@@ -101,5 +104,22 @@ public class SiteAdminController {
         }
     }
 
+    @Inject
+    Template usuarios;
 
+    @GET
+    @Path("/usuario_list")
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance listUsers() {
+        // Aqui você retorna o HTML da listagem e formulário de pesquisa
+        return usuarios.instance();
+    }
+
+    @GET
+    @Path("/pesquisar")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchUsers(@QueryParam("nome") String nome, @QueryParam("cpf") String cpf, @QueryParam("email") String email) {
+        List<Usuario> usuarios = usuarioBO.pesquisarUsuarios(nome, cpf, email); // Busca os usuários no banco
+        return Response.ok(usuarios).build();
+    }
 }

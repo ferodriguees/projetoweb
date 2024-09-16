@@ -114,5 +114,18 @@ public class UsuarioBO {
             usuarioDAO.persist(usuarioEntidade);
         }
     }
+
+    public List<Usuario> pesquisarUsuarios(String nome, String email, String username) {
+        // Qualquer lógica de negócios, validações ou regras aplicadas antes da busca
+        if ((nome == null || nome.isEmpty()) &&
+                (email == null || email.isEmpty()) &&
+                (username == null || username.isEmpty())) {
+            // Se nenhum filtro for fornecido, talvez não permita a pesquisa
+            throw new IllegalArgumentException("Pelo menos um critério de pesquisa deve ser fornecido.");
+        }
+
+        // Chama o DAO para realizar a consulta
+        return usuarioDAO.pesquisarUsuarios(nome, email, username);
+    }
 }
 
