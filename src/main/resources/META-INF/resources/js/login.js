@@ -44,6 +44,9 @@ function carregarSiteAdminComToken(token) {
             return response.text();
         })
         .then(html => {
+            // Atualiza a URL no navegador
+            window.history.pushState({}, '', '/site_admin');
+
             // Adiciona o conteúdo da página no corpo do site
             document.open();
             document.write(html);
