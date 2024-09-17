@@ -17,7 +17,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
                 // Armazena o token JWT no localStorage
                 localStorage.setItem('token', data.token);
 
-                // Armazena o CPF no localStorage ou sessionStorage, se necessário
+                // Armazena o CPF no localStorage ou sessionStorage
                 localStorage.setItem('cpf', data.cpf);
 
                 // Redireciona para a página principal ou outra página apropriada

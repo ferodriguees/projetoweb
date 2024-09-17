@@ -5,13 +5,16 @@ import br.edu.ifg.luziania.model.dto.UsuarioDTO;
 import br.edu.ifg.luziania.model.entity.Usuario;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
-import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 
 import java.util.List;
 
@@ -23,42 +26,50 @@ public class SiteAdminController {
 
     @Inject
     Template conta;
-
     @Inject
-    SecurityIdentity securityIdentity;
+    Template usuarios;
+    @Inject
+    Template cadastroUsuario;
+
+   @Inject
+    JsonWebToken jwt;
+
 
     @Inject
     UsuarioBO usuarioBO;
 
+//    @GET
+//    @Produces(MediaType.TEXT_HTML)
+//    public TemplateInstance getSiteAdmin() {
+//            return siteAdmin.instance();
+//
+//        }
+
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance getSiteAdmin() {
-        // Obtém o nome do usuário logado a partir do token JWT
-        String emailUsuario = securityIdentity.getPrincipal().getName();
+    public TemplateInstance carregarSiteAdmin() {
+        // Verifica se o token tem grupos (perfis)
+        String perfil = (jwt.getGroups() != null && !jwt.getGroups().isEmpty())
+                ? jwt.getGroups().stream().findFirst().orElse("sem-perfil")
+                : "sem-perfil";
 
-        // Busca o usuário no banco de dados usando o email (ou outro identificador)
-        UsuarioDTO usuarioDTO = usuarioBO.buscarUsuarioPorEmail(emailUsuario);
+        // Exemplo de como pegar outro claim, como o nome do usuário
+        String nomeUsuario = jwt.getClaim("nome");
 
-        // Verifica se o usuário foi encontrado
-        if (usuarioDTO != null) {
-            String perfil = usuarioDTO.getPerfil();  // Obtém o perfil do usuário logado
-
-            // Passa o nome do usuário e o perfil para o template
-            return siteAdmin
-                    .data("nomeUsuario", usuarioDTO.getNome())
-                    .data("perfilUsuario", perfil);
-                    //.data("barraNav", barraNav.instance());  // Envia o perfil para o template
-
-        }
-
-        // Caso o usuário não seja encontrado, redireciona para uma página de erro
-        return siteAdmin.data("mensagemErro", "Usuário não encontrado");
+        return siteAdmin.data("perfil", perfil);  // Passa o perfil para o template
     }
+
 
     @GET
     @Path("/conta")
     public TemplateInstance getContaPage() {
         return conta.instance();
+    }
+
+    @GET
+    @Path("/cadastrarUsuarioPage")
+    public TemplateInstance getCadastroUser() {
+        return cadastroUsuario.instance();
     }
 
     @POST
@@ -103,9 +114,6 @@ public class SiteAdminController {
             return Response.status(Response.Status.NOT_FOUND).entity("Usuário não encontrado.").build();
         }
     }
-
-    @Inject
-    Template usuarios;
 
     @GET
     @Path("/usuario_list")

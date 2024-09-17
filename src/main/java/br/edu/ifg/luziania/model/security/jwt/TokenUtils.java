@@ -26,7 +26,7 @@ public class TokenUtils implements Serializable {
                 Collections.singletonList(usuario.getPerfil()));
 
         claimsBuilder.issuer("http://localhost:8080");
-        claimsBuilder.subject(usuario.getEmail());
+        claimsBuilder.subject(usuario.getUsername());
         claimsBuilder.issuedAt(currentTimeInSecs);
         claimsBuilder.expiresAt(System.currentTimeMillis() + 3600 * 1000);
         claimsBuilder.claim("nome", usuario.getNome());

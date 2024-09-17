@@ -86,6 +86,17 @@ public class UsuarioBO {
         return null;
     }
 
+    public UsuarioDTO buscarUsuarioPorUsername(String username) {
+        Usuario usuario = usuarioDAO.buscarPorUsername(username);
+
+        if (usuario != null) {
+            // Converte o objeto Usuario para UsuarioDTO
+            return new UsuarioDTO(usuario.getNome(), usuario.getUsername(), usuario.getEmail(), usuario.getPerfil(), usuario.getCpf(), usuario.getSenha());
+        }
+
+        return null; // Retorna null se o usuário não for encontrado
+    }
+
     public UsuarioDTO buscarUsuarioPorEmail(String email) {
         Usuario usuario = usuarioDAO.buscarPorEmail(email);
         if (usuario != null) {

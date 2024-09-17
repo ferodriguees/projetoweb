@@ -1,4 +1,4 @@
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Obtém o CPF do usuário logado (armazenado no localStorage ou de outro lugar)
     const cpf = localStorage.getItem('cpf');
 
@@ -26,7 +26,6 @@ window.onload = function() {
     } else {
         console.error('CPF do usuário não encontrado');
     }
-
         function loadUserPage() {
             // Carrega a página de usuários ao clicar no menu "Usuário"
             document.querySelector("#usuarioOption").addEventListener("click", function (event) {
@@ -73,6 +72,7 @@ window.onload = function() {
         loadUserPage();
 
 
+
     // Alterna o menu esquerdo
     document.getElementById('menuToggle').addEventListener('click', function() {
         document.getElementById('menuContent').classList.toggle('show');
@@ -87,6 +87,7 @@ window.onload = function() {
         // Limpa o localStorage (onde o token e outros dados do usuário estão armazenados)
         localStorage.removeItem('cpf'); // Remove o CPF do usuário
         localStorage.removeItem('token');   // Se estiver usando JWT, remova o token também
+
 
         // Redireciona para a página de login
         window.location.href = '/login';
@@ -109,4 +110,4 @@ window.onload = function() {
             }
         }
     };
-};
+});

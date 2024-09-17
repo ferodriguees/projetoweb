@@ -45,6 +45,16 @@ public class UsuarioDAO implements PanacheRepository<Usuario> {
         }
     }
 
+    public Usuario buscarPorUsername(String username) {
+        try {
+            return entityManager.createQuery("SELECT u FROM Usuario u WHERE u.username = :username", Usuario.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // Retorna null se o usuário não for encontrado
+        }
+    }
+
     public List<Usuario> pesquisarUsuarios(String nome, String email, String username) {
         StringBuilder queryStr = new StringBuilder("SELECT u FROM Usuario u WHERE 1=1");
 

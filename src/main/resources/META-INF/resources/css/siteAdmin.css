@@ -124,14 +124,15 @@ h1 {
 }
 
 #novoUsuarioBtn {
+    cursor: pointer; /* Garante que o ponteiro do mouse mude ao passar sobre o botão */
+    background-color: #007bff; /* Exemplo de cor */
+    color: white; /* Cor do texto */
     padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
 }
 
 #novoUsuarioBtn:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Exemplo de cor de hover */
 }
+
