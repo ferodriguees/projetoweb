@@ -41,6 +41,22 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+    // Função para carregar a página de atendimento
+    function loadAtendimentoPage() {
+        document.querySelector("#atendimentoOption").addEventListener("click", function(event) {
+            event.preventDefault(); // Evita o recarregamento completo
+
+            fetch('/atendimento') // Pega o conteúdo da página de atendimento
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('conteudo').innerHTML = html; // Carrega o conteúdo no corpo da página
+                    loadAtendimentoFunctionality(); // Chama a função para carregar a funcionalidade de atendimento
+                })
+                .catch(error => console.error('Erro ao carregar a página de atendimento:', error));
+        });
+    }
+
+
         // Função para adicionar eventos ao formulário de pesquisa
         function loadSearchFunctionality() {
             const searchForm = document.getElementById('searchForm');
@@ -69,7 +85,60 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        loadUserPage();
+    // Função para adicionar eventos ao formulário de atendimento
+    function loadAtendimentoFunctionality() {
+        const chamarProximaBtn = document.getElementById('chamarProximaBtn');
+        const realizarAtendimentoBtn = document.getElementById('realizarAtendimentoBtn');
+        const pacienteAusenteBtn = document.getElementById('pacienteAusenteBtn');
+        const senhaChamadaElem = document.getElementById('senhaChamada');
+
+        if (chamarProximaBtn) {
+            chamarProximaBtn.addEventListener('click', function() {
+                fetch('/atendimento/chamar', {
+                    method: 'GET'
+                })
+                    .then(response => {
+                        if (response.status === 204) {
+                            throw new Error('Não há senhas na fila.');
+                        }
+                        if (!response.ok) {
+                            return response.text().then(text => { throw new Error(text); });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        senhaChamadaElem.textContent = `Senha chamada: ${data.tipo}${String(data.numero).padStart(3, '0')}`;
+                        realizarAtendimentoBtn.disabled = false;
+                        pacienteAusenteBtn.disabled = false;
+                    })
+                    .catch(error => {
+                        console.error('Erro ao chamar a próxima senha:', error);
+                        senhaChamadaElem.textContent = error.message;
+                        realizarAtendimentoBtn.disabled = true;
+                        pacienteAusenteBtn.disabled = true;
+                    });
+            });
+        }
+
+        if (realizarAtendimentoBtn) {
+            realizarAtendimentoBtn.addEventListener('click', function() {
+                window.location.href = '/cadastro';
+            });
+        }
+
+        if (pacienteAusenteBtn) {
+            pacienteAusenteBtn.addEventListener('click', function() {
+                alert('Paciente marcado como ausente.');
+                senhaChamadaElem.textContent = '';
+                realizarAtendimentoBtn.disabled = true;
+                pacienteAusenteBtn.disabled = true;
+            });
+        }
+    }
+
+    loadUserPage();
+    loadAtendimentoPage();
+
 
 
 
