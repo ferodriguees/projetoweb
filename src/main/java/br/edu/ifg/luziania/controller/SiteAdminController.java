@@ -9,10 +9,8 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.SecurityContext;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 
@@ -34,16 +32,8 @@ public class SiteAdminController {
    @Inject
     JsonWebToken jwt;
 
-
     @Inject
     UsuarioBO usuarioBO;
-
-//    @GET
-//    @Produces(MediaType.TEXT_HTML)
-//    public TemplateInstance getSiteAdmin() {
-//            return siteAdmin.instance();
-//
-//        }
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -58,7 +48,6 @@ public class SiteAdminController {
 
         return siteAdmin.data("perfil", perfil);  // Passa o perfil para o template
     }
-
 
     @GET
     @Path("/conta")
@@ -117,6 +106,7 @@ public class SiteAdminController {
 
     @GET
     @Path("/usuario_list")
+    //@RolesAllowed("admin")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance listUsers() {
         // Aqui você retorna o HTML da listagem e formulário de pesquisa

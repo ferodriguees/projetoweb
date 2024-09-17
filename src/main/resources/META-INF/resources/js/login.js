@@ -14,14 +14,11 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         .then(response => response.json())
         .then(data => {
             if (data.token) {
-                // Armazena o token JWT no localStorage
                 localStorage.setItem('token', data.token);
 
-                // Armazena o CPF no localStorage ou sessionStorage
                 localStorage.setItem('cpf', data.cpf);
 
-                // Redireciona para a página principal ou outra página apropriada
-                window.location.href = '/site_admin';
+                carregarSiteAdminComToken(data.token);
             } else {
                 alert('Login falhou! Verifique seu nome de usuário e senha.');
             }
@@ -31,3 +28,28 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             alert('Ocorreu um erro ao fazer login. Tente novamente mais tarde.');
         });
 });
+
+// Função para carregar a página com o token
+function carregarSiteAdminComToken(token) {
+    fetch('/site_admin', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao carregar conteúdo');
+            }
+            return response.text();
+        })
+        .then(html => {
+            // Adiciona o conteúdo da página no corpo do site
+            document.open();
+            document.write(html);
+            document.close();
+        })
+        .catch(error => {
+            console.error('Erro ao carregar a página do site admin:', error);
+        });
+}
