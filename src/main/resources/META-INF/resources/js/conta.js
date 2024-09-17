@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data) {
                 // Preenche os campos do formulário com os dados do usuário
                 document.getElementById('nome').value = data.nome;
+                document.getElementById('perfil').value = data.perfil;
                 document.getElementById('username').value = data.username;
                 document.getElementById('cpf').value = data.cpf; // CPF é fixo, mas pode exibir
                 document.getElementById('email').value = data.email;
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Verifica se todos os campos do formulário existem
         const nomeField = document.getElementById('nome');
+        const perfilField = document.getElementById('perfil');
         const senhaField = document.getElementById('senha');
         const repetirSenhaField = document.getElementById('repetirSenha');
 
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Obtém os valores dos campos
         const nome = nomeField.value;
+        const perfil = perfilField.value;
         const senha = senhaField.value;
         const repetirSenha = repetirSenhaField.value;
 
@@ -61,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Cria o objeto de dados do usuário, incluindo a senha (se fornecida)
         const usuarioAtualizado = {
             nome: nome,
+            perfil: perfil,
             senha: senha || null // Se o campo senha estiver vazio, o backend pode ignorar a alteração
         };
 

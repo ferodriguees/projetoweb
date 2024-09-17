@@ -25,13 +25,14 @@ form div {
 }
 
 label {
+    display: block; /* Isso garante que os rótulos fiquem acima dos inputs */
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-input[type="text"], input[type="password"], input[type="email"] {
+input[type="text"], input[type="password"], input[type="email"], select {
     padding: 7px;
-    width: 100%;
+    width: 100%; /* Garante que os inputs e selects ocupem 100% da largura do formulário */
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -48,4 +49,3 @@ button {
 button:hover {
     background-color: #44a2be;
 }
-
