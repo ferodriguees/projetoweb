@@ -35,6 +35,7 @@ public class SiteAdminController {
     @Inject
     UsuarioBO usuarioBO;
 
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance carregarSiteAdmin() {
@@ -48,6 +49,7 @@ public class SiteAdminController {
 
         return siteAdmin.data("perfil", perfil);  // Passa o perfil para o template
     }
+
 
     @GET
     @Path("/conta")
@@ -87,7 +89,7 @@ public class SiteAdminController {
         if (usuarioExistente != null) {
             // Atualiza o nome e o email do usuário
             usuarioExistente.setNome(usuarioAtualizado.getNome());
-            usuarioExistente.setEmail(usuarioAtualizado.getEmail());
+            usuarioExistente.setPerfil(usuarioAtualizado.getPerfil());
 
             // Verifica se o campo senha foi preenchido
             if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isEmpty()) {
@@ -105,6 +107,7 @@ public class SiteAdminController {
     }
 
     @GET
+    @RolesAllowed({"admin", "atendente"})
     @Path("/usuario_list")
     //@RolesAllowed("admin")
     @Produces(MediaType.TEXT_HTML)
