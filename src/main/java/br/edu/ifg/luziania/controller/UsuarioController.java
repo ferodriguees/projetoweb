@@ -85,7 +85,7 @@ public class UsuarioController {
     // Método para buscar o usuário pelo CPF
     @GET
     @Path("/buscar/{cpf}")
-    @RolesAllowed("admin")
+    @RolesAllowed({"admin", "atendente", "medico"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response obterUsuarioPorCpf(@PathParam("cpf") String cpf) {
         UsuarioDTO usuario = usuarioBO.buscarUsuarioPorCpf(cpf);
