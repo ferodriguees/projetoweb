@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciamento de Usuários</title>
-    <link rel="stylesheet" href="/css/siteAdmin.css">
+        {#include navbar /}
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/usuarios.css">
 </head>
 <body>
 <div class="container">
@@ -18,15 +20,13 @@
     </form>
 
     <ul id="userList">
-        <!-- Lista de usuários será carregada aqui -->
+
     </ul>
     </div>
 
 <div class="novo-usuario-container">
-    <!-- Botão Novo Usuário -->
     <button id="novoUsuarioBtn" class="novoUsuario-btn">Novo Usuário</button>
 </div>
-
 
     <script type="module" src="/js/loadNavbar.js"></script>
 <script type="module" src="/js/usuarios.js"></script>

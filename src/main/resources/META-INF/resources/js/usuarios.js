@@ -37,26 +37,15 @@ window.onload = function () {
         form.addEventListener('submit', searchUsers);
     }
 
-    // Função para carregar a página de cadastro de novo usuário
+    // Função para redirecionar para a página de cadastro de novo usuário
     function loadCadastroUsuarioPage() {
         const novoUsuarioBtn = document.getElementById('novoUsuarioBtn');
         if (novoUsuarioBtn) {
             novoUsuarioBtn.addEventListener('click', function(event) {
                 event.preventDefault(); // Evita o comportamento padrão do botão
 
-                // Fazer a requisição para carregar a página de cadastro
-                fetch('/site_admin/cadastrarUsuarioPage')
-                    .then(response => response.text())
-                    .then(html => {
-                        // Insere o conteúdo HTML da página de cadastro no corpo da página
-                        document.getElementById('conteudo').innerHTML = html;
-
-                        // Caso exista um JS específico para a página de cadastro, ele será carregado
-                        const script = document.createElement('script');
-                        script.src = '/js/cadastroUsuario.js'; // JS para a página de cadastro
-                        document.body.appendChild(script);
-                    })
-                    .catch(error => console.error('Erro ao carregar a página de cadastro:', error));
+                // Redireciona diretamente para a página de cadastro
+                window.location.href = '/site_admin/cadastrarUsuarioPage';
             });
         } else {
             console.error('Botão "Novo Usuário" não encontrado.');

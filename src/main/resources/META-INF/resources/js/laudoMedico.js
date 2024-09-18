@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         janelaImpressao.document.write('<html><head><title>Imprimir Laudo</title>');
         janelaImpressao.document.write('</head><body>');
         janelaImpressao.document.write('<h1>Laudo Médico</h1>');
-        janelaImpressao.document.write('<pre>' + laudo + '</pre>');  // Exibir o texto do laudo
+        janelaImpressao.document.write('<pre>' + laudo + '</pre>');
         janelaImpressao.document.write('</body></html>');
 
         // Iniciar a impressão

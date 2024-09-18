@@ -1,5 +1,8 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
 main {
@@ -9,6 +12,7 @@ main {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
+    color: #3E819B;
 }
 
 h2 {
@@ -25,14 +29,14 @@ form div {
 }
 
 label {
-    display: block; /* Isso garante que os rótulos fiquem acima dos inputs */
+    display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
 input[type="text"], input[type="password"], input[type="email"], select {
     padding: 7px;
-    width: 100%; /* Garante que os inputs e selects ocupem 100% da largura do formulário */
+    width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
