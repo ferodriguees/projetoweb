@@ -25,17 +25,6 @@ public class PacienteDAO {
         }
     }
 
-
-    public Paciente buscarPorCpf(String cpf) {
-        try {
-            return entityManager.createQuery("SELECT p FROM Paciente p WHERE p.cpf = :cpf", Paciente.class)
-                    .setParameter("cpf", cpf)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
     public List<Paciente> findAll() {
         return entityManager.createQuery("SELECT p FROM Paciente p", Paciente.class).getResultList();
     }

@@ -5,6 +5,7 @@ import br.edu.ifg.luziania.model.entity.GerenciamentoDeSenhas.Senha;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -28,6 +29,7 @@ public class AtendenteController {
 
     @GET
     @Path("/chamar")
+    @RolesAllowed({"admin", "atendente"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response chamarProximaSenha() {

@@ -21,35 +21,26 @@ public class SiteAdminController {
 
     @Inject
     Template siteAdmin;
-
     @Inject
     Template conta;
     @Inject
     Template usuarios;
     @Inject
     Template cadastroUsuario;
-
    @Inject
     JsonWebToken jwt;
-
     @Inject
     UsuarioBO usuarioBO;
-
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance carregarSiteAdmin() {
-        // Verifica se o token tem grupos (perfis)
         String perfil = (jwt.getGroups() != null && !jwt.getGroups().isEmpty())
                 ? jwt.getGroups().stream().findFirst().orElse("sem-perfil")
                 : "sem-perfil";
 
-        // Exemplo de como pegar outro claim, como o nome do usuário
-        String nomeUsuario = jwt.getClaim("nome");
-
-        return siteAdmin.data("perfil", perfil);  // Passa o perfil para o template
+        return siteAdmin.data("perfil", perfil);
     }
-
 
     @GET
     @Path("/conta")
@@ -72,55 +63,73 @@ public class SiteAdminController {
             usuarioBO.cadastrarUsuario(usuarioDTO);
             return Response.ok().build();
         } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Erro ao cadastrar usuário").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity
+                    ("Erro ao cadastrar usuário").build();
         }
     }
 
-    // Método para atualizar os dados do usuário
+    // Método que atualizar os dados do usuario
     @PUT
-    @RolesAllowed("admin")
-    @Path("/atualizar/{cpf}")
+    @RolesAllowed({"admin", "atendente", "medico"})
+    @Path("/atualizar")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response atualizarUsuario(@PathParam("cpf") String cpf, UsuarioDTO usuarioAtualizado) {
-        UsuarioDTO usuarioExistente = usuarioBO.buscarUsuarioPorCpf(cpf);
+    public Response atualizarUsuario(UsuarioDTO usuarioAtualizado) {
+        String username = jwt.getClaim("sub");
+
+        UsuarioDTO usuarioExistente = usuarioBO.buscarUsuarioPorUsername(username);
 
         if (usuarioExistente != null) {
-            // Atualiza o nome e o email do usuário
             usuarioExistente.setNome(usuarioAtualizado.getNome());
             usuarioExistente.setPerfil(usuarioAtualizado.getPerfil());
 
-            // Verifica se o campo senha foi preenchido
             if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isEmpty()) {
-                // Atualiza a senha, se foi fornecida
+
                 usuarioExistente.setSenha(usuarioAtualizado.getSenha());
             }
 
-            // Chama o BO para atualizar o usuário
             usuarioBO.atualizarUsuario(usuarioExistente);
 
-            return Response.ok("Usuário atualizado com sucesso.").build();
+            return Response.ok("Usuário Atualizado! " +
+                    "Faça o login novamente para atualizar suas credenciais.").build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).entity("Usuário não encontrado.").build();
         }
     }
 
     @GET
-    @RolesAllowed({"admin", "atendente"})
+    //@RolesAllowed({"admin", "atendente"})
     @Path("/usuario_list")
     //@RolesAllowed("admin")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance listUsers() {
-        // Aqui você retorna o HTML da listagem e formulário de pesquisa
         return usuarios.instance();
     }
 
     @GET
     @Path("/pesquisar")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchUsers(@QueryParam("nome") String nome, @QueryParam("cpf") String cpf, @QueryParam("email") String email) {
-        List<Usuario> usuarios = usuarioBO.pesquisarUsuarios(nome, cpf, email); // Busca os usuários no banco
-        return Response.ok(usuarios).build();
+    public Response searchUsers(@QueryParam("nome") String nome,
+                                @QueryParam("cpf") String cpf,
+                                @QueryParam("email") String email) {
+        try {
+            List<Usuario> usuarios = usuarioBO.pesquisarUsuarios(nome, cpf, email);
+
+            if (usuarios.isEmpty()) {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Nenhum usuário encontrado.")
+                        .build();
+            }
+
+            return Response.ok(usuarios).build();
+
+        } catch (IllegalArgumentException e) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+        }
     }
+
 }

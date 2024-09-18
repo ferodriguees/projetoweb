@@ -16,8 +16,6 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             if (data.token) {
                 localStorage.setItem('token', data.token);
 
-                localStorage.setItem('cpf', data.cpf);
-
                 carregarSiteAdminComToken(data.token);
             } else {
                 alert('Login falhou! Verifique seu nome de usuário e senha.');
@@ -29,7 +27,6 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         });
 });
 
-// Função para carregar a página com o token
 function carregarSiteAdminComToken(token) {
     fetch('/site_admin', {
         method: 'GET',
@@ -44,10 +41,8 @@ function carregarSiteAdminComToken(token) {
             return response.text();
         })
         .then(html => {
-            // Atualiza a URL no navegador
             window.history.pushState({}, '', '/site_admin');
 
-            // Adiciona o conteúdo da página no corpo do site
             document.open();
             document.write(html);
             document.close();

@@ -5,9 +5,9 @@ import br.edu.ifg.luziania.model.dto.UsuarioDTO;
 import br.edu.ifg.luziania.model.entity.Usuario;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -15,7 +15,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
-import java.util.List;
 import java.util.Optional;
 
 @Path("/usuario")
@@ -33,11 +32,6 @@ public class UsuarioController {
     }
 
     @GET
-    public List<Usuario> listarUsuarios() {
-        return usuarioBO.listarUsuarios();
-    }
-
-    @GET
     @Path("/{id}")
     public Response buscarUsuarioPorId(@PathParam("id") Long id) {
         Optional<Usuario> usuario = usuarioBO.buscarUsuarioPorId(id);
@@ -51,16 +45,8 @@ public class UsuarioController {
         // Chama o método do BO para cadastrar o usuário
         usuarioBO.cadastrarAdmin(usuarioDTO);
 
-        // Redireciona para a página de login após o cadastro bem-sucedido
         return Response.ok("Usuário cadastrado com sucesso").build();
         //return Response.seeOther(URI.create("/login")).build();
-    }
-
-    @PUT
-    @Path("/{id}")
-    public Response atualizarUsuario(@PathParam("id") Long id, Usuario usuario) {
-        usuarioBO.atualizarUsuario(id, usuario);
-        return Response.ok().build();
     }
 
     @DELETE
@@ -73,45 +59,27 @@ public class UsuarioController {
     @Context
     SecurityContext securityContext;
 
-    //recepcao do usuario, implementar a qualquer momento
     @GET
     @Path("/me")
-    public String getUsuario() {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUsuario() {
         JsonWebToken jwt = (JsonWebToken) securityContext.getUserPrincipal();
         String nome = jwt.getClaim("nome");
-        return "Bem-vindo, " + nome;
-    }
+        String cpf = jwt.getClaim("cpf");
+        String email = jwt.getClaim("email");
+        String perfil = jwt.getClaim("perfil");
+        String username = jwt.getClaim("username");
 
-    // Método para buscar o usuário pelo CPF
-    @GET
-    @Path("/buscar/{cpf}")
-    @RolesAllowed({"admin", "atendente", "medico"})
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response obterUsuarioPorCpf(@PathParam("cpf") String cpf) {
-        UsuarioDTO usuario = usuarioBO.buscarUsuarioPorCpf(cpf);
+        // Cria um objeto JSON para retornar as informações
+        JsonObject usuarioJson = Json.createObjectBuilder()
+                .add("nome", nome)
+                .add("cpf", cpf)
+                .add("email", email)
+                .add("perfil", perfil)
+                .add("username", username)
+                .build();
 
-        if (usuario == null) {
-            return Response.status(Response.Status.NOT_FOUND).entity("Usuário não encontrado").build();
-        }
-
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.getNome(), usuario.getUsername(),
-                usuario.getEmail(), usuario.getCpf(), usuario.getPerfil(), usuario.getSenha());
-
-        return Response.ok(usuarioDTO).build();
-    }
-
-    @GET
-    @Path("/usuario/logado")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response obterUsuarioLogado(@Context SecurityContext securityContext) {
-        String cpfUsuarioLogado = securityContext.getUserPrincipal().getName();
-        UsuarioDTO usuario = usuarioBO.buscarUsuarioPorCpf(cpfUsuarioLogado);
-
-        if (usuario != null) {
-            return Response.ok(usuario).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).entity("Usuário não encontrado").build();
-        }
+        return Response.ok(usuarioJson).build();
     }
 
 }

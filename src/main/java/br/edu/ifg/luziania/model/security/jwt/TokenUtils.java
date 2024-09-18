@@ -29,7 +29,13 @@ public class TokenUtils implements Serializable {
         claimsBuilder.subject(usuario.getUsername());
         claimsBuilder.issuedAt(currentTimeInSecs);
         claimsBuilder.expiresAt(System.currentTimeMillis() + 3600 * 1000);
+
         claimsBuilder.claim("nome", usuario.getNome());
+        claimsBuilder.claim("cpf", usuario.getCpf());
+        claimsBuilder.claim("email", usuario.getEmail());
+        claimsBuilder.claim("perfil", usuario.getPerfil());
+        claimsBuilder.claim("username", usuario.getUsername());
+
         claimsBuilder.groups(roles);
 
         return claimsBuilder.jws().sign(privateKey);

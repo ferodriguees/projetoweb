@@ -1,28 +1,30 @@
-// Função para enviar o token JWT no cabeçalho de autorização
 document.addEventListener('DOMContentLoaded', function() {
-    function carregarSiteAdmin() {
-    const token = localStorage.getItem('token'); // Pega o token do localStorage
+    const welcomeMessageElem = document.getElementById('welcomeMessage');
 
-    if (token) {
-        fetch('/site_admin', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token // Adiciona o token no cabeçalho
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao carregar conteúdo');
-                }
-                return response.text();
-            })
-            .then(html => {
-                //document.getElementById('conteudo').innerHTML = html;
-            })
-            .catch(error => console.error('Erro:', error));
-    } else {
-        console.log('Token não encontrado');
+    function getJwtToken() {
+        return localStorage.getItem('token');
     }
-}
-carregarSiteAdmin();
+
+    function getNomeUsuarioFromToken() {
+        const token = getJwtToken();
+        if (token) {
+            // Decodifica o payload do JWT
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            return payload.nome || 'Usuário';
+        }
+        return null;
+    }
+
+    function exibirMensagemDeBoasVindas() {
+        const nomeUsuario = getNomeUsuarioFromToken();
+        if (nomeUsuario) {
+            const mensagem = `Bem-vindo(a), 
+<strong>${nomeUsuario}</strong>! <br> Use o menu lateral para interagir com o sistema.`;
+            welcomeMessageElem.innerHTML = mensagem;
+        } else {
+            welcomeMessageElem.innerHTML = 'Erro ao obter o nome do usuário.';
+        }
+    }
+
+    exibirMensagemDeBoasVindas();
 });

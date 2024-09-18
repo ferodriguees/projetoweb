@@ -1,54 +1,55 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Obtém o CPF do usuário logado (armazenado no localStorage ou de outro lugar)
-    const cpf = localStorage.getItem('cpf');
+    // Função para carregar o nome do usuário e atualizar o dropdown
+    function carregarNomeUsuario() {
+        const token = localStorage.getItem('token');
 
-    if (cpf) {
-        // Faz a requisição para obter o nome do usuário pelo CPF
-        fetch(`/usuario/buscar/${cpf}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.nome) {
-                    // Substitui o texto do dropdown pelo nome do usuário
-                    document.getElementById('nomeUsuarioDropdown').textContent = data.nome;
-                } else {
-                    console.error('Usuário não encontrado');
+        if (token) {
+            fetch('/usuario/me', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
                 }
             })
-            .catch(error => {
-                console.error('Erro ao buscar o usuário pelo CPF:', error);
-            });
-    } else {
-        console.error('CPF do usuário não encontrado');
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao buscar nome do usuário');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.nome) {
+                        document.getElementById('nomeUsuarioDropdown').textContent = data.nome;
+                    } else {
+                        console.error('Nome do usuário não encontrado');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar nome do usuário:', error);
+                });
+        } else {
+            console.error('Token não encontrado');
+        }
     }
 
-    // Alterna o menu esquerdo
+    carregarNomeUsuario();
+
     document.getElementById('menuToggle').addEventListener('click', function() {
         document.getElementById('menuContent').classList.toggle('show');
     });
 
-// Alterna o dropdown do usuário
     document.getElementById('nomeUsuarioDropdown').addEventListener('click', function() {
         document.getElementById('dropdownContent').classList.toggle('show');
     });
 
     document.getElementById('logout').addEventListener('click', function() {
-        // Limpa o localStorage (onde o token e outros dados do usuário estão armazenados)
-        localStorage.removeItem('cpf'); // Remove o CPF do usuário
-        localStorage.removeItem('token');   // Se estiver usando JWT, remova o token também
+        localStorage.removeItem('cpf');
+        localStorage.removeItem('token');
 
-
-        // Redireciona para a página de login
         window.location.href = '/login';
     });
 
 
-// Fecha o menu quando clicar fora
     window.onclick = function(event) {
         if (!event.target.matches('#menuToggle')) {
             var menuContent = document.getElementById('menuContent');

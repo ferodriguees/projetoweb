@@ -61,8 +61,6 @@ public class MedicoController {
         String laudo = dadosAtendimento.get("laudo");
         String atestado = dadosAtendimento.get("atestado");
 
-        // Lógica para processar o atendimento (ex: salvar no banco ou outro tratamento)
-
         return Response.ok("Atendimento realizado com sucesso").build();
     }
 

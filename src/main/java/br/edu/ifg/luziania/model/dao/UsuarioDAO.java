@@ -15,43 +15,13 @@ public class UsuarioDAO implements PanacheRepository<Usuario> {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Usuario buscarPorCpf(String cpf) {
-        try {
-            Usuario usuario = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.cpf = :cpf", Usuario.class)
-                    .setParameter("cpf", cpf)
-                    .getSingleResult();
-
-            // Adiciona log para verificar se o usuário foi encontrado
-            System.out.println("Usuário encontrado: " + usuario.getNome() + ", CPF: " + usuario.getCpf());
-            return usuario;
-        } catch (NoResultException e) {
-            System.out.println("Nenhum usuário encontrado com o CPF: " + cpf);
-            return null; // Retorna null se não encontrar nenhum resultado
-        }
-    }
-
-    public Usuario buscarPorEmail(String email) {
-        try {
-            Usuario usuario = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.email = :email", Usuario.class)
-                    .setParameter("email", email)
-                    .getSingleResult();
-
-            // Log para verificar se o usuário foi encontrado
-            System.out.println("Usuário encontrado: " + usuario.getNome() + ", Email: " + usuario.getEmail());
-            return usuario;
-        } catch (NoResultException e) {
-            System.out.println("Nenhum usuário encontrado com o email: " + email);
-            return null; // Retorna null se não encontrar nenhum resultado
-        }
-    }
-
     public Usuario buscarPorUsername(String username) {
         try {
             return entityManager.createQuery("SELECT u FROM Usuario u WHERE u.username = :username", Usuario.class)
                     .setParameter("username", username)
                     .getSingleResult();
         } catch (NoResultException e) {
-            return null; // Retorna null se o usuário não for encontrado
+            return null;
         }
     }
 
@@ -84,6 +54,6 @@ public class UsuarioDAO implements PanacheRepository<Usuario> {
     }
 
     public void persist(Usuario usuario) {
-        entityManager.merge(usuario);  // Atualiza o usuário no banco de dados
+        entityManager.merge(usuario);
     }
 }

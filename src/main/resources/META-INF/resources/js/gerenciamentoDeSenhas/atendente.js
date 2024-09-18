@@ -4,9 +4,27 @@ document.addEventListener('DOMContentLoaded', function () {
     const realizarAtendimentoBtn = document.getElementById('realizarAtendimentoBtn');
     const pacienteAusenteBtn = document.getElementById('pacienteAusenteBtn');
 
+    function getJwtToken() {
+        return localStorage.getItem('token');
+    }
+
+    function fetchWithJwt(url, options = {}) {
+        const token = getJwtToken();
+        const headers = new Headers(options.headers || {});
+
+        if (token) {
+            headers.append('Authorization', `Bearer ${token}`);
+        }
+
+        return fetch(url, {
+            ...options,
+            headers: headers
+        });
+    }
+
     chamarProximaBtn.addEventListener('click', function () {
-        fetch('/atendimento/chamar', {
-            method: 'GET'
+        fetchWithJwt('/atendimento/chamar', {
+            method: 'GET',
         })
             .then(response => {
                 if (response.status === 204) {
