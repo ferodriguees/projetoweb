@@ -1,68 +1,76 @@
-/* Estilo da barra de navegação superior */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Barra de navegação */
 .navbar {
     background-color: #3E819B;
-    padding: 15px;
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .navbar ul {
     list-style: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     margin: 0;
     padding: 0;
 }
 
-.navbar ul li {
-    display: inline;
+.navbar li {
+    margin: 0 15px;
 }
 
-.navbar ul li a {
+.navbar a {
     color: white;
     text-decoration: none;
-    font-size: 18px;
-    padding: 8px 15px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
-.navbar ul li a:hover {
-    background-color: #005599;
-    border-radius: 5px;
+.navbar a:hover {
+    color: #44a2be;
 }
 
-/* Estilo da seção Nossos Serviços */
-#nossos-servicos {
-    background-color: #f4f4f4;
-    padding: 50px 0;
-    text-align: center;
-}
-
-#nossos-servicos h2 {
-    color: #003366;
-    margin-bottom: 30px;
-    font-size: 2.5em;
-}
-
-.servicos-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-}
-
-.servico-item {
-    background-color: white;
+/* Conteúdo principal */
+main {
+    max-width: 600px;
+    margin: 100px auto;
     padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 200px;
+    color: #3E819B;
     text-align: center;
 }
 
-.servico-item img {
-    width: 80px;
-    margin-bottom: 15px;
+h1 {
+    color: #3E819B;
+    margin-bottom: 20px;
 }
 
-.servico-item p {
-    color: #333;
-    font-size: 18px;
+p {
+    color: #555;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column;
+    }
+
+    .navbar li {
+        margin: 10px 0;
+    }
+
+    main {
+        margin: 80px 20px;
+        padding: 15px;
+    }
 }

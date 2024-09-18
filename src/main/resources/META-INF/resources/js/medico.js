@@ -26,23 +26,22 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-
     realizarAtendimentoBtn.addEventListener('click', function () {
-        window.location.href = '/medico/laudoMedico';  // Redireciona para a página de laudo
+        window.location.href = '/medico/laudoMedico';
     });
 
     pacienteAusenteBtn.addEventListener('click', function () {
         fetch('/medico/marcarAusente', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Mudamos para 'application/json'
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({}) // Enviando um corpo vazio
+            body: JSON.stringify({})
         })
             .then(response => response.text())
             .then(data => {
                 alert(data);
-                nomePacienteElem.textContent = ''; // Limpa o nome do paciente
+                nomePacienteElem.textContent = '';
                 realizarAtendimentoBtn.disabled = true;
                 pacienteAusenteBtn.disabled = true;
             })

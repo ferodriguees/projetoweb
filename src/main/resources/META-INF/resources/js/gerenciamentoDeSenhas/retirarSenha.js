@@ -1,5 +1,3 @@
-// retirarSenha.js
-
 document.addEventListener('DOMContentLoaded', function () {
     const retirarSenhaBtn = document.getElementById('retirarSenhaBtn');
     const senhaGeradaElem = document.getElementById('senhaGerada');

@@ -1,13 +1,11 @@
 document.getElementById('cadastroForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Previne o envio do formulário padrão
+    event.preventDefault();
 
-    // Coleta os dados do formulário
     const nome = document.getElementById('nome').value;
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const cpf = document.getElementById('cpf').value;
 
-    // Envia os dados via fetch
     fetch('/usuario/cadastroAdmin', {
         method: 'POST',
         headers: {
@@ -15,9 +13,8 @@ document.getElementById('cadastroForm').addEventListener('submit', function (eve
         },
         body: JSON.stringify({ nome, username, email, cpf })
     })
-        .then(response => response.text()) // Recebe a mensagem do backend
+        .then(response => response.text())
         .then(message => {
-            // Exibe a mensagem de sucesso
             const mensagemDiv = document.getElementById('mensagem');
             mensagemDiv.innerText = message;
             mensagemDiv.style.display = 'block';

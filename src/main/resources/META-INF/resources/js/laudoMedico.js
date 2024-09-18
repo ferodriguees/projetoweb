@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Criar uma nova janela para impressão
         const janelaImpressao = window.open('', '', 'width=800,height=600');
         janelaImpressao.document.write('<html><head><title>Imprimir Laudo</title>');
         janelaImpressao.document.write('</head><body>');

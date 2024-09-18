@@ -19,8 +19,6 @@ public class HomeController {
     Template corpoClinico;
     @Inject
     Template convenios;
-    @Inject
-    Template agendarConsulta;
 
     @GET
     @Path("/tela-inicial")
@@ -50,11 +48,6 @@ public class HomeController {
         return convenios.instance();
     }
 
-    @GET
-    @Path("/agendar-consulta")
-    @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance getAgendarConsulta() {
-        return agendarConsulta.instance();
-    }
+
 }
 

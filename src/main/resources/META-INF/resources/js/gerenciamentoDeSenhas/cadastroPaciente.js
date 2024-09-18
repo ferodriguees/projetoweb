@@ -1,5 +1,3 @@
-// cadastroPaciente.js
-
 document.addEventListener('DOMContentLoaded', function () {
     const cadastroPacienteForm = document.getElementById('cadastroPacienteForm');
     const resultadoCadastroElem = document.getElementById('resultadoCadastro');
@@ -17,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     cadastroPacienteForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Impede o envio padrão do formulário
+        event.preventDefault();
 
         const nome = document.getElementById('nome').value;
         const cpf = document.getElementById('cpf').value;
@@ -38,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!response.ok) {
                     return response.text().then(text => { throw new Error(text); });
                 }
-                // Verifica se há um corpo na resposta para evitar erro de JSON
                 return response.text().then(text => {
                     return text ? JSON.parse(text) : {};
                 });

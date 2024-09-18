@@ -24,7 +24,6 @@ p {
     text-align: justify;
 }
 
-/* Estilo da Seção Superior */
 .header {
     background-color: #ffffff;
     padding: 15px 0;
@@ -37,7 +36,6 @@ p {
     font-size: 30px;
 }
 
-/* Estilo para as Imagens */
 .image-container {
     display: flex;
     justify-content: center;
@@ -50,7 +48,6 @@ p {
     border-radius: 10px;
 }
 
-/* Estilo para Sessões Informativas */
 .section-info {
     margin: 40px 0;
     padding: 20px;
@@ -93,7 +90,6 @@ p {
     font-size: 14px;
 }
 
-/* Responsividade */
 @media screen and (max-width: 768px) {
     .container {
         width: 95%;
