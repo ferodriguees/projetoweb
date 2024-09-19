@@ -15,6 +15,11 @@ public class UsuarioDAO implements PanacheRepository<Usuario> {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public List<Usuario> listAll() {
+        return getEntityManager().createQuery("FROM Usuario", Usuario.class).getResultList();
+    }
+
+
     public Usuario buscarPorUsername(String username) {
         try {
             return entityManager.createQuery("SELECT u FROM Usuario u WHERE u.username = :username", Usuario.class)

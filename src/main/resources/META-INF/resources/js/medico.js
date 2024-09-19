@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     chamarPacienteBtn.addEventListener('click', function () {
         fetch('/medico/chamarPaciente', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            }
         })
             .then(response => response.json())
             .then(data => {
@@ -34,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('/medico/marcarAusente', {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({})

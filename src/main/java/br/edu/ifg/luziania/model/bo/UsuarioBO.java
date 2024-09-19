@@ -3,6 +3,8 @@ package br.edu.ifg.luziania.model.bo;
 import br.edu.ifg.luziania.model.dao.UsuarioDAO;
 import br.edu.ifg.luziania.model.dto.UsuarioDTO;
 import br.edu.ifg.luziania.model.entity.Usuario;
+import br.edu.ifg.luziania.model.log.LogService;
+import br.edu.ifg.luziania.model.log.LogType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -16,12 +18,20 @@ public class UsuarioBO {
     @Inject
     UsuarioDAO usuarioDAO;
 
+    @Inject
+    LogService logService;
+
     public Optional<Usuario> buscarUsuarioPorId(Long id) {
         return usuarioDAO.findByIdOptional(id);
     }
 
     @Transactional
-    public void cadastrarUsuario(UsuarioDTO usuarioDTO) {
+    public List<Usuario> findAll() {
+        return usuarioDAO.listAll();
+    }
+
+    @Transactional
+    public Usuario cadastrarUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioDTO.getNome());
         usuario.setUsername(usuarioDTO.getUsername());
@@ -31,6 +41,8 @@ public class UsuarioBO {
         usuario.setPerfil(usuarioDTO.getPerfil());
 
         usuarioDAO.persist(usuario);
+
+        return usuario;
     }
 
     @Transactional
@@ -48,7 +60,13 @@ public class UsuarioBO {
 
     @Transactional
     public void deletarUsuario(Long id) {
-        usuarioDAO.deleteById(id);
+        Usuario usuario = usuarioDAO.findById(id);
+        if (usuario != null) {
+            usuarioDAO.deleteById(id);
+
+            // Adiciona log de deleção
+            logService.registerLog(usuario.getId(), LogType.USER_DELETION, "Usuário deletado: " + usuario.getUsername());
+        }
     }
 
     @Transactional

@@ -3,6 +3,8 @@ package br.edu.ifg.luziania.controller;
 import br.edu.ifg.luziania.model.bo.UsuarioBO;
 import br.edu.ifg.luziania.model.dto.UsuarioDTO;
 import br.edu.ifg.luziania.model.entity.Usuario;
+import br.edu.ifg.luziania.model.log.LogService;
+import br.edu.ifg.luziania.model.log.LogType;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.annotation.security.RolesAllowed;
@@ -31,6 +33,8 @@ public class SiteAdminController {
     JsonWebToken jwt;
     @Inject
     UsuarioBO usuarioBO;
+    @Inject
+    LogService logService;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -56,11 +60,16 @@ public class SiteAdminController {
 
     @POST
     @Path("/cadastrarUsuario")
+    @RolesAllowed("admin")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response cadastrarUsuario(UsuarioDTO usuarioDTO) {
         try {
-            usuarioBO.cadastrarUsuario(usuarioDTO);
+
+            Usuario usuarioCadastrado = usuarioBO.cadastrarUsuario(usuarioDTO);
+
+            logService.registerLog(usuarioCadastrado.getId(), LogType.ACCESS, "Usuario cadastrado: " + usuarioCadastrado.getUsername());
+
             return Response.ok().build();
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).entity
@@ -70,8 +79,8 @@ public class SiteAdminController {
 
     // Método que atualizar os dados do usuario
     @PUT
-    @RolesAllowed({"admin", "atendente", "medico"})
     @Path("/atualizar")
+    @RolesAllowed({"admin", "atendente", "medico"})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional

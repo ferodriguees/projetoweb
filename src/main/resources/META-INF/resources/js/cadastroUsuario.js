@@ -1,6 +1,8 @@
 document.getElementById('cadastroUsuarioForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
+    const token = localStorage.getItem('token');
+
     const usuario = {
         nome: document.getElementById('nome').value,
         username: document.getElementById('username').value,
@@ -12,6 +14,7 @@ document.getElementById('cadastroUsuarioForm').addEventListener('submit', functi
     fetch('/site_admin/cadastrarUsuario', {
         method: 'POST',
         headers: {
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(usuario)

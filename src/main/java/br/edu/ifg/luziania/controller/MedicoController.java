@@ -4,6 +4,7 @@ import br.edu.ifg.luziania.model.bo.GerenciamentoDeSenhas.AtendimentoBO;
 import br.edu.ifg.luziania.model.entity.GerenciamentoDeSenhas.Paciente;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -42,6 +43,7 @@ public class MedicoController {
 
     @GET
     @Path("/chamarPaciente")
+    @RolesAllowed({"admin", "medico"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response chamarPaciente() {
         Paciente proximoPaciente = fila.chamarPaciente();
@@ -55,6 +57,7 @@ public class MedicoController {
 
     @POST
     @Path("/realizarAtendimento")
+    @RolesAllowed({"admin", "medico"})
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response realizarAtendimento(Map<String, String> dadosAtendimento) {
