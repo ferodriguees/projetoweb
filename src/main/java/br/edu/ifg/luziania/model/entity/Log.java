@@ -11,7 +11,7 @@ public class Log {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long usuarioId;  // Aqui usamos o ID do usuário autenticado
+    private Long usuarioId;
 
     @Enumerated(EnumType.STRING)
     @Column

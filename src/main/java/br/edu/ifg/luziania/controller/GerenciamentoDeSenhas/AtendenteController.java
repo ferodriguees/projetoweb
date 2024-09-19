@@ -4,7 +4,6 @@ import br.edu.ifg.luziania.model.bo.GerenciamentoDeSenhas.SenhaBO;
 import br.edu.ifg.luziania.model.entity.GerenciamentoDeSenhas.Senha;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
-import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;

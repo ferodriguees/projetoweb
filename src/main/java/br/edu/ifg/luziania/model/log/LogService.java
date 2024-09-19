@@ -25,7 +25,7 @@ public class LogService {
     @Transactional
     public void registerLog(Long usuarioId, LogType type, String description) {
         Log log = new Log();
-        log.setUsuarioId(usuarioId);  // Passando o ID do usuário autenticado
+        log.setUsuarioId(usuarioId);
         log.setType(type);
         log.setMoment(ZonedDateTime.now());
         log.setDescription(description);

@@ -52,7 +52,7 @@ public class UsuarioBO {
         usuario.setUsername(usuarioDTO.getUsername());
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setCpf(usuarioDTO.getCpf());
-        usuario.setSenha("c" + usuarioDTO.getCpf()); // Senha padrão: 'c' seguido do CPF
+        usuario.setSenha("admin123");
         usuario.setPerfil("admin"); //
 
         usuarioDAO.persist(usuario);
@@ -64,7 +64,6 @@ public class UsuarioBO {
         if (usuario != null) {
             usuarioDAO.deleteById(id);
 
-            // Adiciona log de deleção
             logService.registerLog(usuario.getId(), LogType.USER_DELETION, "Usuário deletado: " + usuario.getUsername());
         }
     }
@@ -87,7 +86,6 @@ public class UsuarioBO {
 
         return null;
     }
-
 
     public void atualizarUsuario(UsuarioDTO usuarioAtualizado) {
         Usuario usuarioEntidade = usuarioDAO.buscarPorUsername(usuarioAtualizado.getUsername());

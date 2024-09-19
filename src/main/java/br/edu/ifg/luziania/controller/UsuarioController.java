@@ -74,7 +74,6 @@ public class UsuarioController {
         String perfil = jwt.getClaim("perfil");
         String username = jwt.getClaim("username");
 
-        // Cria um objeto JSON para retornar as informações
         JsonObject usuarioJson = Json.createObjectBuilder()
                 .add("nome", nome)
                 .add("cpf", cpf)
@@ -90,6 +89,6 @@ public class UsuarioController {
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Usuario> getAllUsuarios() {
-        return usuarioBO.findAll(); // Assumindo que você tenha esse método no BO
+        return usuarioBO.findAll();
     }
 }

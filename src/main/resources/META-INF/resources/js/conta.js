@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Faz a requisição para obter os dados do usuário pelo endpoint /me
     fetch(`/usuario/me`, {
         method: 'GET',
         headers: {
@@ -10,11 +9,10 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data) {
-                // Preenche os campos do formulário com os dados do usuário
                 document.getElementById('nome').value = data.nome;
                 document.getElementById('perfil').value = data.perfil;
                 document.getElementById('username').value = data.username;
-                document.getElementById('cpf').value = data.cpf; // CPF é fixo, mas pode exibir
+                document.getElementById('cpf').value = data.cpf;
                 document.getElementById('email').value = data.email;
             } else {
                 alert("Usuário não encontrado.");
@@ -25,39 +23,33 @@ document.addEventListener('DOMContentLoaded', function () {
             alert("Ocorreu um erro ao buscar os dados. Tente novamente mais tarde.");
         });
 
-    // Lidar com a atualização dos dados do usuário
     document.getElementById('contaForm').addEventListener('submit', function (event) {
         event.preventDefault();
 
-        // Verifica se todos os campos do formulário existem
         const nomeField = document.getElementById('nome');
         const perfilField = document.getElementById('perfil');
         const senhaField = document.getElementById('senha');
         const repetirSenhaField = document.getElementById('repetirSenha');
 
-        // Certifica-se de que os campos foram corretamente encontrados no DOM
         if (!nomeField || !senhaField || !repetirSenhaField) {
             console.error("Um ou mais campos do formulário não foram encontrados.");
-            return; // Impede o envio do formulário se algum campo não for encontrado
+            return;
         }
 
-        // Obtém os valores dos campos
         const nome = nomeField.value;
         const perfil = perfilField.value;
         const senha = senhaField.value;
         const repetirSenha = repetirSenhaField.value;
 
-        // Verifica se as senhas coincidem
         if (senha !== repetirSenha) {
             alert("As senhas não coincidem. Por favor, tente novamente.");
-            return; // Impede o envio do formulário
+            return;
         }
 
-        // Cria o objeto de dados do usuário, incluindo a senha (se fornecida)
         const usuarioAtualizado = {
             nome: nome,
             perfil: perfil,
-            senha: senha || null // Se o campo senha estiver vazio, o backend pode ignorar a alteração
+            senha: senha || null
         };
 
         fetch(`/site_admin/atualizar`, {
